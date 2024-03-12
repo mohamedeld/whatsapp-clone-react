@@ -1,12 +1,16 @@
 import * as Yup from "yup";
 
 export const signUpSchema = Yup.object({
-  name:Yup.string().required("Full name is required")
-  .matches(/^[a-zA-Z_ ]*$/,'no specail characters like &%$...')
-  .min(2,'full name must be between 2 and 16 characters')
-  .max(16,'full name must be between 2 and 16 characters'),
-  email:Yup.string().required("Email address is required").email("Invalid email address"),
-  status:Yup.string().max(64,"status must be less than 64 characters"),
-  password:Yup.string().required("Password is required").
-  matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{6,}$/,"one uppercase , one lowercase and speical characters %$# and numbers").min(6,"password must be between 6 and 128").max(128,"password must be between 6 and 128")
+  name:Yup.string().required("ادخل الاسم بالكامل")
+  .min(2,'يجب الا يكون اقل من 2 حرف')
+  .max(16,'يجب الا يتجاوز 16 حرف'),
+  email:Yup.string().required("يجب ادخال الايميل").email("هذا ايميل غير صالح"),
+  status:Yup.string().max(64,"يجب انا تكون الحالة ما بين 1 الي 64 حرف"),
+  password:Yup.string().required("كلمة يجب ادخال كلمة السر").
+  matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{6,}$/,"ادخل كلمة سر قويه تحتوي علي Aa$#1").min(6,"يجب الا تقل عن 6 حروف").max(128,"يجب الا تتجاوز 128 حرف")
+})
+
+export const loginSchema = Yup.object({
+  email:Yup.string().required("يجب ادخال الايميل").email("هذا ايميل غير صالح"),
+  password:Yup.string().required("يجب ادخال كلمة السر")
 })

@@ -14,13 +14,24 @@ const initialState = {
   },
 };
 
-export const registerUser = createAsyncThunk("auth/register",async (values,{rejectWithValue})=>{
-  try{
-    const {data} = await axios.post(`${AUTH_ENDPOINT}/auth/register`,{...values});
+export const registerUser = createAsyncThunk("auth/register", async (values, { rejectWithValue }) => {
+  try {
+    const { data } = await axios.post(`${AUTH_ENDPOINT}/auth/register`, { ...values });
     return data;
-  }catch(error){
+  } catch (error) {
     return rejectWithValue(error.response.data.error.message)
   }
+})
+
+export const loginUser = createAsyncThunk("auth/login", async (values, {rejectWithValue}) => {
+  try {
+    const { data } = await axios.post(`${AUTH_ENDPOINT}/auth/login`, { ...values });
+    console.log(data);
+    return data;
+  } catch (error) {
+    return rejectWithValue(error.response.data.error.message);
+  }
+
 })
 
 const userSlice = createSlice({
@@ -39,19 +50,30 @@ const userSlice = createSlice({
         token: "",
       };
     },
+    changeStatus: (state, action) => {
+      state.status = action.payload;
+    }
   },
-  extraReducers(builder){
-    builder.addCase(registerUser.pending,(state,action)=>{
-      state.status="loading"
-    }).addCase(registerUser.fulfilled,(state,action)=>{
-      state.status="successded";
-      state.user=action.payload.data.user;
-    }).addCase(registerUser.rejected,(action,state)=>{
-      state.status="failed";
-      state.error=action.payload;
+  extraReducers(builder) {
+    builder.addCase(registerUser.pending, (state, action) => {
+      state.status = "loading"
+    }).addCase(registerUser.fulfilled, (state, action) => {
+      state.status = "successded";
+      state.user = action.payload.data.user;
+    }).addCase(registerUser.rejected, (action, state) => {
+      state.status = "failed";
+      state.error = action.payload;
+    }).addCase(loginUser.pending, (state, action) => {
+      state.status = "loading"
+    }).addCase(loginUser.fulfilled, (state, action) => {
+      state.status = "successded";
+      state.user = action.payload.data.user;
+    }).addCase(loginUser.rejected, (action, state) => {
+      state.status = "failed";
+      state.error = action.payload;
     })
   }
 });
 
-export const {logout} = userSlice.actions;
+export const { logout, changeStatus } = userSlice.actions;
 export default userSlice.reducer;
