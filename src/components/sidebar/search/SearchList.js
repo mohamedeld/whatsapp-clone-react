@@ -2,7 +2,6 @@ import React from 'react'
 import Contact from './Contact'
 
 export default function SearchList({searchResult,setSearchResult}) {
-  console.log(searchResult)
   return (
     <>
       <div className="w-full convos scrollbar">

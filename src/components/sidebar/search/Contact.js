@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { openCreateConversation } from '../../../features/chatSlice';
 
 export default function Contact({contact}) {
   const dispatch = useDispatch();
@@ -10,9 +11,32 @@ export default function Contact({contact}) {
   if(!user || !token){
     navigate("/login")
   } 
+  let element={};
+  try{
+    if(contact){
+      element = contact;
+    }
+  }catch(err){
+    console.log(err);
+  }
+  let values={};
+  try{
+    if(user && element){
+      values = {
+        recevierId:element._id,
+        token
+      }
+    }
+  }catch(err){
+    console.log(err);
+  }
+   
+  const openConversation = () => {
+    dispatch(openCreateConversation(values))
+  }
   return (
     <li
-      
+      onClick={()=> openConversation()}
       className="list-none h-[72px] hover:dark:bg-dark_bg_2 cursor-pointer dark:text-dark_text_1 px-[10px]"
     >
       {/*Container*/}

@@ -7,7 +7,6 @@ import SearchList from './search/SearchList';
 
 export default function Sidebar() {
   const [searchResult, setSearchResult] = useState([]);
-  console.log(searchResult.length)
   let searchLength = 0;
   try {
     if (searchResult) {

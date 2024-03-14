@@ -52,7 +52,7 @@ export default function Search({searchResult,setSearchResult}) {
           {show || searchLength > 0 ? (
               <span
                 className="w-8 flex items-center justify-center rotateAnimation cursor-pointer"
-                
+                onClick={()=> setSearchResult([])}
               >
                 <ReturnIcon className="fill-green_1 w-5" />
               </span>

@@ -1,24 +1,53 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import getTimeAgo from '../../utils/getTimeStamp';
+import { openCreateConversation } from '../../features/chatSlice';
+import findPerson from '../../utils/findPerson';
 export default function Conversations({ item }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { activeConversation } = useSelector((state) => state.chat);
   const { token } = user;
-  const openConversation = () => {
-
+  
+  let element={};
+  try{
+    if(item){
+      element = item;
+    }
+  }catch(err){
+    console.log(err);
   }
-  // hover:${
-  //   item._id !== activeConversation._id ? "dark:bg-dark_bg_2" : ""
-  // } cursor-pointer dark:text-dark_text_1 px-[10px] ${
-  //   item._id === activeConversation._id ? "dark:bg-dark_hover_1" : ""
+  let values={};
+  try{
+    if(user && element && element.users){
+      values = {
+        recevierId:findPerson(user,element.users),
+        token
+      }
+    }
+  }catch(err){
+    console.log(err);
+  }
+   
+  const openConversation = () => {
+    dispatch(openCreateConversation(values))
+  }
+  let active={};
+  try{
+    if(activeConversation && activeConversation.existedConversation){
+      active = activeConversation.existedConversation;
+    }
+  }catch(err){console.log(err)}
   return (
 
 
     <li
       onClick={() => openConversation()}
-      className={`list-none h-[72px] w-full dark:bg-dark_bg_1 
+      className={`list-none h-[72px] w-full dark:bg-dark_bg_1
+      hover:${
+        element._id !== active._id ? "dark:bg-dark_bg_2" : ""
+      } cursor-pointer dark:text-dark_text_1 px-[10px] ${
+        element._id === active._id ? "dark:bg-dark_hover_1" : "" 
       }`}
     >
       <div className="relative w-full flex items-center justify-between py-[10px]">
@@ -30,9 +59,9 @@ export default function Conversations({ item }) {
           >
             <img
               src={
-                item.picture
+                element.picture
               }
-              alt={item.name}
+              alt={element.name}
               className="w-full h-full object-cover "
             />
           </div>
@@ -45,7 +74,7 @@ export default function Conversations({ item }) {
             <div>
               <div className="flex items-center gap-x-1 dark:text-dark_text_2">
                 <div className="flex-1 items-center gap-x-1 dark:text-dark_text_2">
-                  <p>{item.latestMessage ? item.latestMessage.message : ''}</p>
+                  <p>{item.latestMessage ? item.latestMessage.message.length > 25 ? `${item.latestMessage.message.subString(0,25)}...`:item.latestMessage.message : ''}</p>
                 </div>
               </div>
             </div>
@@ -54,7 +83,7 @@ export default function Conversations({ item }) {
 
         {/* right */}
         <div className="flex flex-col gap-y-4 items-end text-xs">
-          <span className="dark:text-dark_text_2">{getTimeAgo(item?.latestMessage?.createdAt)}</span>
+          <span className="dark:text-dark_text_2">{element?.latestMessage?.createdAt? getTimeAgo(element?.latestMessage?.createdAt):''}</span>
         </div>
       </div>
       {/*Border*/}
