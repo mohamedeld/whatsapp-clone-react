@@ -2,8 +2,9 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import getTimeAgo from '../../utils/getTimeStamp';
 import { openCreateConversation } from '../../features/chatSlice';
-import findPerson from '../../utils/findPerson';
-export default function Conversations({ item }) {
+import findPerson, { findPersonName, findPersonPicture } from '../../utils/findPerson';
+import SocketContext from '../../context/SocketContext';
+function Conversations({ item,socket }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { activeConversation } = useSelector((state) => state.chat);
@@ -17,6 +18,7 @@ export default function Conversations({ item }) {
   }catch(err){
     console.log(err);
   }
+ 
   let values={};
   try{
     if(user && element && element.users){
@@ -29,15 +31,18 @@ export default function Conversations({ item }) {
     console.log(err);
   }
    
-  const openConversation = () => {
-    dispatch(openCreateConversation(values))
-  }
+  
   let active={};
   try{
-    if(activeConversation && activeConversation.existedConversation){
-      active = activeConversation.existedConversation;
+    if(activeConversation){
+      active = activeConversation;
     }
   }catch(err){console.log(err)}
+
+  const openConversation = async () => {
+  let newConvo=  await dispatch(openCreateConversation(values))
+    await socket.emit("join conversation",newConvo.payload._id);
+  }
   return (
 
 
@@ -59,7 +64,7 @@ export default function Conversations({ item }) {
           >
             <img
               src={
-                element.picture
+                findPersonPicture(user,element.users)
               }
               alt={element.name}
               className="w-full h-full object-cover "
@@ -68,7 +73,7 @@ export default function Conversations({ item }) {
           <div className="w-full flex flex-col">
             {/*Conversation name*/}
             <h1 className="font-bold flex items-center gap-x-2 dark:text-white">
-              {item.name}
+              {findPersonName(user,element.users)}
             </h1>
             {/* conversation message */}
             <div>
@@ -91,3 +96,12 @@ export default function Conversations({ item }) {
     </li>
   )
 }
+
+const ConversationSocket = (props)=>{
+  return (
+    <SocketContext.Consumer>
+      {(socket)=> <Conversations {...props} socket={socket}/>}
+    </SocketContext.Consumer>
+  )
+}
+export default ConversationSocket;

@@ -34,7 +34,7 @@ export const openCreateConversation = createAsyncThunk("conversation/create_open
     })
     return data;
   }catch(error){
-    console.log(error.response.data.error.message);
+    return rejectWithValue(error.response.data.error.message)
   }
 })
 export const getConversationMessage = createAsyncThunk("conversation/messages",async (values,{rejectWithValue})=>{
@@ -47,7 +47,20 @@ export const getConversationMessage = createAsyncThunk("conversation/messages",a
     })
     return data;
   }catch(error){
-    console.log(error.response.data.error.message);
+    return rejectWithValue(error.response.data.error.message)
+  }
+})
+export const sendMessage = createAsyncThunk("message/send",async (values,{rejectWithValue})=>{
+  try{
+    const {token,convoId, message,files} = values;
+    const {data}= await axios.post(`${CONVERSATION_ENDPOINT}/message`,{convoId,message,files},{
+      headers:{
+        Authorization:`Bearer ${token}`
+      }
+    })
+    return data;
+  }catch(error){
+    return rejectWithValue(error.response.data.error.message)
   }
 })
 
@@ -57,6 +70,19 @@ export const chatSlice = createSlice({
   reducers:{
     setActiveConversation:(state,action)=>{
       state.activeConversation = action.payload;
+    },
+    updateMesage:(state,action)=>{
+      let convo = state.activeConversation;
+      if(convo._id === action.payload.conversation._id){
+        state.messages = [...state.messages, action.payload]
+      }
+      // update message
+      let conversation = {
+        ...action.payload.conversation,latestMessage:action.payload
+      }
+      let newConvo = [...state.conversations].filter(item=> item._id !== conversation._id);
+      newConvo.unshift(conversation);
+      state.conversations = newConvo;
     }
   },
   extraReducers(builder){
@@ -79,12 +105,26 @@ export const chatSlice = createSlice({
     }).addCase(getConversationMessage.pending,(state,action)=>{
       state.status ="loading"
     }).addCase(getConversationMessage.fulfilled,(state,action)=>{
+      state.status="success";
       state.messages = action.payload;
     }).addCase(getConversationMessage.rejected,(state,action)=>{
+      state.status = "failed";
+    }).addCase(sendMessage.pending,(state,action)=>{
+      state.status ="loading"
+    }).addCase(sendMessage.fulfilled,(state,action)=>{
+      state.status="success";
+      state.messages = [...state.messages, action.payload];
+      let conversation = {
+        ...action.payload.conversation,latestMessage:action.payload
+      }
+      let newConvo = [...state.conversations].filter(item=> item._id !== conversation._id);
+      newConvo.unshift(conversation);
+      state.conversations = newConvo;
+    }).addCase(sendMessage.rejected,(state,action)=>{
       state.status = "failed";
     })
   }
 })
 
-export const {setActiveConversation} = chatSlice.actions;
+export const {setActiveConversation,updateMesage} = chatSlice.actions;
 export default chatSlice.reducer;

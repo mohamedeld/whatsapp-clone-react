@@ -240,3 +240,24 @@
     width: 100%;
   }
 }
+
+/* loader */
+.loader{
+      /*   spinner div css */
+    height : 30px;
+    width : 30px;
+    border-radius : 50%;
+  /*   background-color : red; */
+    border : 10px solid #ccc;
+    border-top-color : #2A5D4B;
+    animation : spin 1s linear infinite;
+  }
+  
+  @keyframes spin{
+    0%{
+      transform : rotate(0deg);
+    }
+    100%{
+      transform : rotate(360deg);
+    }
+  }

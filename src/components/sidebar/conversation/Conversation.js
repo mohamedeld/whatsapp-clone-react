@@ -8,15 +8,16 @@ export default function Conversation() {
 
   let allConversation=[];
   try{  
-    if(conversations && conversations.data){
-      allConversation = conversations.data.conversations;
+    if(conversations){
+      allConversation = conversations;
     }    
   }catch(err){
     console.log(err);
   }
+  
   return (
     <div className='convos scrollbar pr-5'>
-      {allConversation ? allConversation.map(item=>{
+      {allConversation ? allConversation.filter(ele=> ele.latestMessage).map(item=>{
         return (
           <Conversations key={item._id} item={item}/>
         )

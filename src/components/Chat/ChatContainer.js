@@ -4,8 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { getConversationMessage } from '../../features/chatSlice';
 import ChatHeader from './header/ChatHeader';
 import ChatMessage from './messages/ChatMessage';
+import ChatAction from './actions/ChatAction';
+import SocketContext from '../../context/SocketContext';
 
-export default function ChatContainer() {
+function ChatContainer() {
   const navigate= useNavigate();
   const dispatch = useDispatch();
   const { activeConversation,messages } = useSelector((state) => state.chat);
@@ -16,8 +18,8 @@ export default function ChatContainer() {
   const {token} = user;
   let active={};
   try{
-    if(activeConversation && activeConversation.existedConversation){
-      active = activeConversation.existedConversation;
+    if(activeConversation){
+      active = activeConversation;
     }
   }catch(err){console.log(err)}
   let values={};
@@ -45,8 +47,19 @@ export default function ChatContainer() {
       <ChatHeader/>
         {/* chat message */}
         <ChatMessage/>
+        {/* chat input */}
+        <ChatAction/>
       <div>
       </div>
     </div>
   )
 }
+
+// const ChatContainerSocket = (props)=>{
+//   return (
+//     <SocketContext.Consumer>
+//       {(socket)=> <ChatContainer {...props} socket={socket}/>}
+//     </SocketContext.Consumer>
+//   )
+// }
+export default ChatContainer;

@@ -8,8 +8,8 @@ export default function ChatHeader() {
   const { user } = useSelector((state) => state.user);
   let active={};
   try{
-    if(activeConversation && activeConversation.existedConversation){
-      active = activeConversation.existedConversation;
+    if(activeConversation){
+      active = activeConversation;
     }
   }catch(err){console.log(err)}
   const {name,picture} = active;
