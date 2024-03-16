@@ -58,7 +58,7 @@ const Navbar = ({ isAuthenticated }) => {
                   <Link to="/login">تسجيل الدخول</Link>
                 </li>
                 <li>
-                  <Link to="/register">تسجيل الخروج</Link>
+                <Link to="/register">انشئ حساب</Link>
                 </li>
               </>
             )}
