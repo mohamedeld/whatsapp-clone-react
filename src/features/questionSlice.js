@@ -35,6 +35,21 @@ export const getQuestions = createAsyncThunk("questions/allofThem",async(values,
     return rejectWithValue(error.response.data.error.message)
   }
 })
+export const deleteQuestion = createAsyncThunk("question/delete",async(values,{rejectWithValue})=>{
+  try{
+    const {token,questionId} = values;
+    const {data} = await axios.delete(`${QUESTION_ENDPOINT}/question/${questionId}`,{
+      headers:{
+        Authorization:`Bearer ${token}`
+      }
+    })
+    
+    
+    return data;
+  }catch(error){
+    return rejectWithValue(error.response.data.error.message)
+  }
+})
 const questionSlice = createSlice({
   name:"question",
   initialState,

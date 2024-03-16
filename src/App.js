@@ -18,7 +18,7 @@ import OpenChatContext from "./context/OpenChatContext";
 function App() {
   const dispatch = useDispatch();
   const {user} = useSelector(state=> state.user);
-  
+  console.log(process.env.REACT_APP_API_ENDPOINT.split('/api/v1')[0])
   const {token} = user;
   const socket = io(process.env.REACT_APP_API_BASIC_ENDPOINT);
   let isAuthenticated = !!token;
