@@ -45,6 +45,7 @@ const userSlice = createSlice({
         name: "",
         email: "",
         picture: "",
+        role:"",
         status: "",
         token: "",
       };

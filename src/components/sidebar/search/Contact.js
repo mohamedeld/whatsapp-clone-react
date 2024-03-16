@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { openCreateConversation } from '../../../features/chatSlice';
 import SocketContext from '../../../context/SocketContext';
+import { useOpen } from '../../../context/OpenChatContext';
 
 function Contact({contact,setSearchResults,socket}) {
+  const {open,setOpen} = useOpen();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {user} =useSelector(state=> state.user);
@@ -31,11 +33,14 @@ function Contact({contact,setSearchResults,socket}) {
   }catch(err){
     console.log(err);
   }
-   
+  function handleOpen(){
+    setOpen(true);
+  }
   const openConversation =async () => {
     let newConvo = await dispatch(openCreateConversation(values))
     await socket.emit("join conversation",newConvo.payload._id);
-    setSearchResults([])
+    setSearchResults([]);
+    handleOpen();
   }
   return (
     <li

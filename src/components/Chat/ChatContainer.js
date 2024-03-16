@@ -6,7 +6,8 @@ import ChatHeader from './header/ChatHeader';
 import ChatMessage from './messages/ChatMessage';
 import ChatAction from './actions/ChatAction';
 import SocketContext from '../../context/SocketContext';
-
+import { setActiveConversation } from '../../features/chatSlice';
+import RightArrowIcon from '../../svgandicons/svg/RightArrowIcon';
 function ChatContainer() {
   const navigate= useNavigate();
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ function ChatContainer() {
     <div className="relative w-full h-full border-l dark:border-l-dark_border_2 select-none overflow-hidden ">
       {/*Container*/}
       {/* chat header */}
-      <ChatHeader/>
+      <ChatHeader />
         {/* chat message */}
         <ChatMessage/>
         {/* chat input */}

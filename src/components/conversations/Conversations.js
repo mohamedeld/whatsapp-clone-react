@@ -4,7 +4,9 @@ import getTimeAgo from '../../utils/getTimeStamp';
 import { openCreateConversation } from '../../features/chatSlice';
 import findPerson, { findPersonName, findPersonPicture } from '../../utils/findPerson';
 import SocketContext from '../../context/SocketContext';
+import { useOpen } from '../../context/OpenChatContext';
 function Conversations({ item,socket }) {
+  const {open,setOpen} = useOpen();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { activeConversation } = useSelector((state) => state.chat);
@@ -38,11 +40,15 @@ function Conversations({ item,socket }) {
       active = activeConversation;
     }
   }catch(err){console.log(err)}
-
+  function handleOpen(){
+    setOpen(true);
+  }
   const openConversation = async () => {
   let newConvo=  await dispatch(openCreateConversation(values))
     await socket.emit("join conversation",newConvo.payload._id);
+    handleOpen();
   }
+  
   return (
 
 

@@ -25,7 +25,7 @@ export default function Header() {
             />
           </button>
           <ul className="flex items-center gap-x-2 5">
-            <li>
+            {/* <li>
               <button className="btn">
                 <CommunityIcon className="dark:fill-dark_svg_1" />
               </button>
@@ -39,7 +39,7 @@ export default function Header() {
               <button className="btn">
                 <ChatIcon className="dark:fill-dark_svg_1" />
               </button>
-            </li>
+            </li> */}
             <li
               className="relative"
               onClick={() => setShowMenu((prev) => !prev)}

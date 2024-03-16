@@ -17,7 +17,7 @@ export default function Sidebar() {
   } catch (err) { console.log(err) }
   
   return (
-    <div className="flex0030 max-w-[40%] sm:max-w-full h-full select-none">
+    <div className="flex0030 w-full md:max-w-[40%] sm:max-w-full h-full select-none">
       {/*sidebar header  */}
       <Header />
       {/* notification */}

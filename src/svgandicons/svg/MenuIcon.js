@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function CloseIcon({ className }) {
+export default function MenuIcon({ className }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -10,9 +10,8 @@ export default function CloseIcon({ className }) {
       className={className}
       enableBackground="new 0 0 24 24"
       xmlSpace="preserve"
-    
     >
-      <path d="M19.6004 17.2L14.3004 11.9L19.6004 6.60005L17.8004 4.80005L12.5004 10.2L7.20039 4.90005L5.40039 6.60005L10.7004 11.9L5.40039 17.2L7.20039 19L12.5004 13.7L17.8004 19L19.6004 17.2Z" />
+      <path d="M3 18h18v-2H3v2zM3 13h18v-2H3v2zM3 6v2h18V6H3z" />
     </svg>
   );
 }
