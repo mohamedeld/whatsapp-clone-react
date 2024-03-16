@@ -23,7 +23,7 @@ export const store = configureStore({
         ignoredActions: ["persist/PERSIST"]
       }
     }),
-  devTools:true
+  devTools:false
 })
 
 export const persistor = persistStore(store);
