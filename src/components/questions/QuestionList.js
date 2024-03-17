@@ -52,7 +52,6 @@ export default function QuestionList() {
       allQuestions = questions.question;
     }
   }catch(err){console.log(err)}
-  console.log(allQuestions);
   return (
     <div>
       <div className='pt-10 flex justify-center items-center text-xl dark:text-white'>كل الشكاوي</div>

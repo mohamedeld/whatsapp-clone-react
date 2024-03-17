@@ -16,6 +16,7 @@ export default function LoginForm() {
   });
   const onSubmit = async (data)=>{
     const response = await dispatch(loginUser({...data}));
+    console.log(response);
     if(response.payload.status === "success"){
       navigate("/")
     }else if(response.status === "failed"){
