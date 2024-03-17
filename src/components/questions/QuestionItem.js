@@ -6,7 +6,7 @@ export default function QuestionItem({item}) {
   return (
     
       <div className='relative flex flex-col justify-center items-center mx-5'>
-        <div className='w-full md:w-3/6 px-10 py-8 my-5 dark:bg-white rounded'>
+        <div className='relative w-full md:w-3/6 px-10 py-8 my-5 dark:bg-white rounded'>
           <div className='absolute top-10 left-5 cursor-pointer'>
             <DeleteIcon className="fill-red-500"/>
           </div>
